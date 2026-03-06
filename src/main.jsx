@@ -1,6 +1,14 @@
 import { tournaments } from "./data/tournamentDB.js";
 import { StatusBadge } from "./components/StatusBadge.jsx";
+import { ParticipantRow } from "./components/ParticipantRow.jsx";
 
+const app = document.getElementById("app");
+const participant = {
+    name : "Ethan Miller",
+    status : "Pending",
+    avatar : "https://i.pravatar.cc/40?img=1"
+};
+app.innerHTML = ParticipantRow(participant);
 console.log(tournaments);
 
 console.log(StatusBadge("On Going"));

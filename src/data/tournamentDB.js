@@ -5,14 +5,20 @@ export const tournaments = [
     sport: "Badminton",
     status: "On Going",
     date: "October 12, 2025",
-    location: "Badminton Hall 1"
-  },
-  {
-    id: 2,
-    title: "Hoops Championship",
-    sport: "Basketball",
-    status: "Upcoming",
-    date: "November 2, 2025",
-    location: "Indoor Arena"
+    location: "Badminton Hall 1",
+
+    participants: [
+      {
+        name: "Ethan Miller",
+        status: "Pending",
+        avatar: "https://i.pravatar.cc/40?img=1"
+      },
+      {
+        name: "Noah Smith",
+        status: "Confirmed",
+        avatar: "https://i.pravatar.cc/40?img=2"
+      }
+    ]
+
   }
 ];
