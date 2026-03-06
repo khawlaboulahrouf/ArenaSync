@@ -1,51 +1,117 @@
-import { tournaments } from "./data/tournamentDB.js";
-import { TournamentCard } from "./components/TournamentCard.jsx";
-import { filterTournaments } from "./services/DataFilter.js";
+// src/main.js
+import { tournamentDB } from './data/tournamentDB.js';
+import { TournamentCard } from './components/TournamentCard.jsx';
 
-const app = document.getElementById("app");
+// Challenge 1: Affichage dans la console
+console.log('Données des tournois:', tournamentDB);
 
-// Création des boutons de filtres dynamiques
-const sports = ["All", ...new Set(tournaments.map(t => t.sport))];
+// État global
+let currentFilter = 'All';
+let selectedTournamentId = null;
 
-const filterBar = document.createElement("div");
-filterBar.className = "d-flex gap-2 mb-3";
-
-sports.forEach(sport => {
-  const btn = document.createElement("button");
-  btn.className = "btn btn-outline-primary";
-  btn.textContent = sport;
-
-  btn.addEventListener("click", () => {
-    renderTournaments(filterTournaments(tournaments, sport));
-  });
-
-  filterBar.appendChild(btn);
-});
-
-app.appendChild(filterBar);
-
-//  Fonction de rendu
-function renderTournaments(tournois){
-  // vider les anciennes cards
-  let container = document.getElementById("tournaments-container");
-  if(!container){
-    container = document.createElement("div");
-    container.id = "tournaments-container";
-    container.className = "row";
-    app.appendChild(container);
-  }
-  container.innerHTML = "";
-
-  if(tournois.length === 0){
-    container.innerHTML = `<p>Aucun tournoi trouvé pour ce sport</p>`;
-    return;
-  }
-
-  tournois.forEach(t => {
-    const card = TournamentCard(t);
-    container.appendChild(card);
-  });
+// Fonction pour obtenir les sports uniques
+function getUniqueSports() {
+    const sports = ['All', ...new Set(tournamentDB.map(t => t.sport))];
+    return sports;
 }
 
-// render initial
-renderTournaments(tournaments);
+// Fonction de rendu des filtres
+function renderFilters() {
+    const filtersContainer = document.createElement('div');
+    filtersContainer.className = 'mb-8';
+    
+    const title = document.createElement('h2');
+    title.className = 'text-lg font-semibold text-gray-700 mb-3';
+    title.textContent = 'Filtrer par sport:';
+    
+    const buttonsContainer = document.createElement('div');
+    buttonsContainer.className = 'flex flex-wrap gap-2';
+    
+    const sports = getUniqueSports();
+    
+    sports.forEach(sport => {
+        const button = document.createElement('button');
+        button.className = `px-4 py-2 rounded-full font-medium transition-colors ${
+            currentFilter === sport 
+                ? 'bg-blue-600 text-white' 
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+        }`;
+        button.textContent = sport;
+        button.setAttribute('aria-pressed', currentFilter === sport);
+        
+        button.addEventListener('click', () => {
+            currentFilter = sport;
+            renderApp();
+        });
+        
+        buttonsContainer.appendChild(button);
+    });
+    
+    filtersContainer.appendChild(title);
+    filtersContainer.appendChild(buttonsContainer);
+    
+    return filtersContainer;
+}
+
+// Fonction de rendu des tournois
+function renderTournaments() {
+    const tournamentsGrid = document.createElement('div');
+    tournamentsGrid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+    
+    // Filtrage des tournois
+    const filteredTournaments = currentFilter === 'All' 
+        ? tournamentDB 
+        : tournamentDB.filter(t => t.sport === currentFilter);
+    
+    // Message si aucun tournoi
+    if (filteredTournaments.length === 0) {
+        const message = document.createElement('div');
+        message.className = 'col-span-full text-center py-12';
+        message.innerHTML = `
+            <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
+            <p class="text-xl text-gray-500">Aucun tournoi trouvé pour ce sport</p>
+        `;
+        tournamentsGrid.appendChild(message);
+        return tournamentsGrid;
+    }
+    
+    // Rendu des cartes
+    filteredTournaments.forEach(tournament => {
+        const isDetailed = selectedTournamentId === tournament.id;
+        tournamentsGrid.appendChild(TournamentCard(tournament, isDetailed));
+        
+        // Ajout de l'événement pour la vue détaillée
+        if (!isDetailed) {
+            const card = tournamentsGrid.lastChild;
+            card.addEventListener('click', () => {
+                selectedTournamentId = selectedTournamentId === tournament.id ? null : tournament.id;
+                renderApp();
+            });
+            card.classList.add('cursor-pointer');
+        }
+    });
+    
+    return tournamentsGrid;
+}
+
+// Fonction principale de rendu
+function renderApp() {
+    const app = document.getElementById('app');
+    app.innerHTML = '';
+    
+    // Titre principal
+    const header = document.createElement('div');
+    header.className = 'text-center mb-8';
+    header.innerHTML = `
+        <h1 class="text-4xl font-bold text-gray-900 mb-2">ArenaSync</h1>
+        <p class="text-lg text-gray-600">Gestion de tournois et matchs</p>
+    `;
+    
+    // Ajout des composants
+    app.appendChild(header);
+    app.appendChild(renderFilters());
+    app.appendChild(renderTournaments());
+}
+
+// Initialisation
+renderApp();
