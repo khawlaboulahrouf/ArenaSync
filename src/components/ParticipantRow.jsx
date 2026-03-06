@@ -1,24 +1,14 @@
 import { StatusBadge } from "./StatusBadge.jsx";
 
-export function ParticipantRow(participant) {
+export function ParticipantRow(participant){
+  const row = document.createElement("div");
+  row.className = "participant-row d-flex align-items-center gap-2 mb-2";
 
-  return `
-  
-  <div class="d-flex align-items-center gap-3 mb-2">
-  
-    <img 
-      src="${participant.avatar}" 
-      width="40" 
-      height="40"
-      class="rounded-circle"
-    >
-
-    <div class="d-flex align-items-center gap-2">
-      <span>${participant.name}</span>
-      ${StatusBadge(participant.status)}
-    </div>
-
-  </div>
-
+  row.innerHTML = `
+    <img src="${participant.avatar}" />
+    <span>${participant.name}</span>
+    ${StatusBadge(participant.status)}
   `;
+
+  return row;
 }

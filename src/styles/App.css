@@ -1,17 +1,59 @@
+/* General */
+body{
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  padding: 20px;
+}
+
+/* Tournament Card */
+.tournament-card{
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Tabs */
 .tabs{
-  display:flex;
-  gap:10px;
-  margin:10px 0;
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .tab-btn{
-  border:none;
-  padding:6px 12px;
-  border-radius:8px;
-  cursor:pointer;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #eee;
 }
 
 .tab-btn.active{
-  background:#222;
-  color:white;
+  background: #222;
+  color: white;
+}
+
+/* ParticipantRow */
+.participant-row{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.participant-row img{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.badge{
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+.btn-outline-primary{
+  border-radius: 8px;
+  padding: 6px 12px;
 }

@@ -1,53 +1,51 @@
 import { tournaments } from "./data/tournamentDB.js";
 import { TournamentCard } from "./components/TournamentCard.jsx";
+import { filterTournaments } from "./services/DataFilter.js";
 
 const app = document.getElementById("app");
 
-tournaments.map((tournament) => {
-  const card = TournamentCard(tournament);
-  app.appendChild(card);
+// Création des boutons de filtres dynamiques
+const sports = ["All", ...new Set(tournaments.map(t => t.sport))];
+
+const filterBar = document.createElement("div");
+filterBar.className = "d-flex gap-2 mb-3";
+
+sports.forEach(sport => {
+  const btn = document.createElement("button");
+  btn.className = "btn btn-outline-primary";
+  btn.textContent = sport;
+
+  btn.addEventListener("click", () => {
+    renderTournaments(filterTournaments(tournaments, sport));
+  });
+
+  filterBar.appendChild(btn);
 });
-// import { tournaments } from "./data/tournamentDB.js";
-// import { StatusBadge } from "./components/StatusBadge.jsx";
-// import { TournamentCard } from "./components/TournamentCard.jsx";
-// import { ParticipantRow } from "./components/ParticipantRow.jsx";
 
-// const app = document.getElementById("app");
-// const cards = tournaments.map(tournament => 
-//   TournamentCard(tournament)
-// ).join("");
+app.appendChild(filterBar);
 
-// app.innerHTML = `
+//  Fonction de rendu
+function renderTournaments(tournois){
+  // vider les anciennes cards
+  let container = document.getElementById("tournaments-container");
+  if(!container){
+    container = document.createElement("div");
+    container.id = "tournaments-container";
+    container.className = "row";
+    app.appendChild(container);
+  }
+  container.innerHTML = "";
 
-// <div class="container mt-4">
+  if(tournois.length === 0){
+    container.innerHTML = `<p>Aucun tournoi trouvé pour ce sport</p>`;
+    return;
+  }
 
-//   <div class="row">
+  tournois.forEach(t => {
+    const card = TournamentCard(t);
+    container.appendChild(card);
+  });
+}
 
-//     ${cards}
-
-//   </div>
-
-// </div>
-
-// `;
-
-// const participant = {
-//     name : "Ethan Miller",
-//     status : "Pending",
-//     avatar : "https://i.pravatar.cc/40?img=1"
-// };
-// app.innerHTML = ParticipantRow(participant);
-
-
-
-
-
-
-
-
-
-console.log(tournaments);
-
-console.log(StatusBadge("On Going"));
-console.log(StatusBadge("Upcoming"));
-console.log(StatusBadge("Pending"));
+// render initial
+renderTournaments(tournaments);
