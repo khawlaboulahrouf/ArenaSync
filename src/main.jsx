@@ -1,26 +1,35 @@
 import { tournaments } from "./data/tournamentDB.js";
-import { StatusBadge } from "./components/StatusBadge.jsx";
 import { TournamentCard } from "./components/TournamentCard.jsx";
-import { ParticipantRow } from "./components/ParticipantRow.jsx";
 
 const app = document.getElementById("app");
-const cards = tournaments.map(tournament => 
-  TournamentCard(tournament)
-).join("");
 
-app.innerHTML = `
+tournaments.map((tournament) => {
+  const card = TournamentCard(tournament);
+  app.appendChild(card);
+});
+// import { tournaments } from "./data/tournamentDB.js";
+// import { StatusBadge } from "./components/StatusBadge.jsx";
+// import { TournamentCard } from "./components/TournamentCard.jsx";
+// import { ParticipantRow } from "./components/ParticipantRow.jsx";
 
-<div class="container mt-4">
+// const app = document.getElementById("app");
+// const cards = tournaments.map(tournament => 
+//   TournamentCard(tournament)
+// ).join("");
 
-  <div class="row">
+// app.innerHTML = `
 
-    ${cards}
+// <div class="container mt-4">
 
-  </div>
+//   <div class="row">
 
-</div>
+//     ${cards}
 
-`;
+//   </div>
+
+// </div>
+
+// `;
 
 // const participant = {
 //     name : "Ethan Miller",

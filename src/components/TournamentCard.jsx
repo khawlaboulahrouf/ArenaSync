@@ -1,25 +1,48 @@
-import { StatusBadge } from "./StatusBadge.jsx";
-export function TournamentCard(tournament){
-    return`
-    <div class = "col-md mb-4">
-     <div class="card shadow-sm h-100">
+import { ParticipantRow } from "./ParticipantRow.jsx";
 
-      <div class="card-body">
+export function TournamentCard(tournament) {
+  const card = document.createElement("div");
+  card.className = "tournament-card";
 
-        <h5 class="card-title">${tournament.title}</h5>
+  card.innerHTML = `
+    <h3>${tournament.name}</h3>
 
-        <p class="text-muted">${tournament.sport}</p>
-
-        <p>${tournament.date}</p>
-
-        <p>${tournament.location}</p>
-
-        ${StatusBadge(tournament.status)}
-
-      </div>
-
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="info">Info</button>
+      <button class="tab-btn" data-tab="participants">Participants</button>
     </div>
 
-  </div>
-    `;
+    <div class="tab-content">
+      <p>${tournament.description}</p>
+    </div>
+  `;
+
+  const buttons = card.querySelectorAll(".tab-btn");
+  const content = card.querySelector(".tab-content");
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+
+      buttons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const tab = btn.dataset.tab;
+
+      if (tab === "info") {
+        content.innerHTML = `<p>${tournament.description}</p>`;
+      }
+
+      if (tab === "participants") {
+        content.innerHTML = "";
+
+        tournament.participants.map((p) => {
+          const row = ParticipantRow(p);
+          content.appendChild(row);
+        });
+      }
+
+    });
+  });
+
+  return card;
 }
