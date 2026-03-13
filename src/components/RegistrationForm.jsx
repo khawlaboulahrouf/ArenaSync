@@ -34,7 +34,7 @@ function RegistrationForm({ onAddParticipant }) {
   
 
   const handleSubmit = (e) => {
-//////////
+
     e.preventDefault();
 
     if(!validate()) return;
