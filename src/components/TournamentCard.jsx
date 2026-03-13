@@ -3,6 +3,7 @@ import StatusBadge from "./StatusBadge";
 import ParticipantRow from "./ParticipantRow";
 import RegistrationForm from "./RegistrationForm";
 
+
 function TournamentCard({ tournament }) {
   const [activeTab, setActiveTab] = useState("info");
   const [participants, setParticipants] = useState(tournament.participants || []);
@@ -24,6 +25,7 @@ function TournamentCard({ tournament }) {
       setIsRegistered(true);
     } else if (isRegistered) {
       // se désinscrire : enlever le dernier participant ajouté "Vous"
+      //
       setParticipants(participants.filter(p => p.name !== "Vous"));
       setIsRegistered(false);
     }
