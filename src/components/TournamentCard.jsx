@@ -7,6 +7,10 @@ function TournamentCard({ tournament }) {
 
   const [activeTab,setActiveTab] = useState("info");
 
+
+
+  //
+
   const [participants,setParticipants] = useState(tournament.participants);
 
   const [isRegistered,setIsRegistered] = useState(false);
