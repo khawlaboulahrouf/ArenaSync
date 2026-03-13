@@ -25,12 +25,13 @@ function RegistrationForm({ onAddParticipant }) {
     if(level.length < 1){
       newErrors.level = "Niveau requis";
     }
-//////////////////
+
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
 
   };
+  ///
 
   const handleSubmit = (e) => {
 
