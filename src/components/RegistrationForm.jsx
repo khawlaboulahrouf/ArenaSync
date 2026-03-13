@@ -5,7 +5,6 @@ function RegistrationForm({ onAddParticipant }) {
   const [name,setName] = useState("");
   const [team,setTeam] = useState("");
   const [level,setLevel] = useState("");
-
   const [errors,setErrors] = useState({});
 
   const nameRegex = /^[A-Za-z ]{3,}$/;
@@ -29,9 +28,7 @@ function RegistrationForm({ onAddParticipant }) {
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
-
   };
-  
 
   const handleSubmit = (e) => {
 
@@ -54,14 +51,11 @@ function RegistrationForm({ onAddParticipant }) {
     setTeam("");
     setLevel("");
     setErrors({});
-
   };
 
   return (
 
     <form onSubmit={handleSubmit} className="flex flex-col gap-3 mt-4">
-
-      {/* NAME */}
 
       <input
         type="text"
@@ -72,12 +66,8 @@ function RegistrationForm({ onAddParticipant }) {
       />
 
       {errors.name && (
-        <p className="text-red-500 text-sm">
-          {errors.name}
-        </p>
+        <p className="text-red-500 text-sm">{errors.name}</p>
       )}
-
-      {/* TEAM */}
 
       <input
         type="text"
@@ -88,12 +78,8 @@ function RegistrationForm({ onAddParticipant }) {
       />
 
       {errors.team && (
-        <p className="text-red-500 text-sm">
-          {errors.team}
-        </p>
+        <p className="text-red-500 text-sm">{errors.team}</p>
       )}
-
-      {/* LEVEL */}
 
       <input
         type="text"
@@ -104,9 +90,7 @@ function RegistrationForm({ onAddParticipant }) {
       />
 
       {errors.level && (
-        <p className="text-red-500 text-sm">
-          {errors.level}
-        </p>
+        <p className="text-red-500 text-sm">{errors.level}</p>
       )}
 
       <button
@@ -119,7 +103,6 @@ function RegistrationForm({ onAddParticipant }) {
     </form>
 
   );
-
 }
 
 export default RegistrationForm;
